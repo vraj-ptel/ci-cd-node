@@ -1,0 +1,36 @@
+name: node deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout source
+        uses: actions/checkout@v4
+
+      - name: login to docker
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOKCER_TOKEN }}
+
+      - name: build docker image
+        run: docker build -t vrajpaatel/node_app .
+      
+      - name: publish docker image
+        run: docker push vrajpaatel/node_app:latest
+  
+  deploy:
+    runs-on: self-hosted
+    needs: build
+    steps:
+      - name: pull image from the docker hub
+        run: docker pull vrajpaatel/node_app:latest
+      - name: run docker container
+        run: docker run -d -p 3000:3000 vrajpaatel/node_app
+
+    
