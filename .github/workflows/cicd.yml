@@ -29,7 +29,7 @@ jobs:
     needs: build
     steps:
       - name: pull image from the docker hub
-        run: docker pull vrajpaatel/node_app:latest
+        run: sudo docker pull vrajpaatel/node_app:latest
       - name: run docker container
         run: sudo docker run -d -p 3000:3000 vrajpaatel/node_app
 
