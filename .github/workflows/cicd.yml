@@ -30,10 +30,9 @@ jobs:
     steps:
       - name: pull image from the docker hub
         run: sudo docker pull vrajpaatel/node_app:latest
-      - name: stop old container
-        run: sudo docker stop node_app
+      
       - name: delete old container
-        run : sudo docker rm node_app
+        run : sudo docker rm -f node_app
       - name: run docker container
         run: sudo docker run -d --name node_app -p 3000:3000 vrajpaatel/node_app
 
